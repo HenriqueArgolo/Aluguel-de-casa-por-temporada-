@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209482895714",
+    "project_id": "casa-por-temporada-fc352",
+    "storage_bucket": "casa-por-temporada-fc352.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209482895714:android:cf37f398f39f8bd217dc3b",
+        "android_client_info": {
+          "package_name": "com.example.casaportemporada"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8yduoY4opeXGO6zdK-aJJnCt_fhm-O5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
