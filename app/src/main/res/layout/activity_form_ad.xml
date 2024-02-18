@@ -27,6 +27,8 @@
 
 
             <androidx.cardview.widget.CardView
+                android:onClick="verifyGalleryPermission"
+                android:id="@+id/card_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginBottom="20dp"
@@ -36,6 +38,7 @@
 
 
                 <ImageView
+                    android:id="@+id/img_ad"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
