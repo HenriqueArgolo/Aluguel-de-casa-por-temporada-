@@ -1,5 +1,10 @@
 package com.example.casaportemporada.Model;
 
+import com.example.casaportemporada.Helper.FirebaseHelper;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ktx.Firebase;
+
 public class AdModel {
     private String id;
     private String title;
@@ -8,7 +13,20 @@ public class AdModel {
     private String bathroom;
     private String garage;
 
+    private Boolean state;
 
+    public AdModel(){
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference();
+        this.setId(reference.push().getKey());
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
+    }
 
     public String getId() {
         return id;
