@@ -7,6 +7,8 @@ import androidx.cardview.widget.CardView;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,8 +26,10 @@ import com.example.casaportemporada.R;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 
 public class FormAD extends AppCompatActivity {
     private static final int REQUEST_GALERIA = 100;
@@ -150,15 +154,18 @@ public class FormAD extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_GALERIA && resultCode == RESULT_OK) {
-            if (data != null) {
                 Uri selectedImageUri = data.getData();
-                if (selectedImageUri != null) {
-                    img_ad.setImageURI(selectedImageUri);
+                imagePath = Objects.requireNonNull(selectedImageUri).toString();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                ImageDecoder.Source source = ImageDecoder.createSource(getBaseContext().getContentResolver(), selectedImageUri);
+                try {
+                    image = ImageDecoder.decodeBitmap(source);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
+            img_ad.setImageBitmap(image);
         }
-    }
-
-
+        }
 
 }
