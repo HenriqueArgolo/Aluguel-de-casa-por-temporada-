@@ -12,14 +12,29 @@ public class AdModel {
     private String room;
     private String bathroom;
     private String garage;
-
     private Boolean state;
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public AdModel(){
         DatabaseReference reference = FirebaseHelper.getDatabaseReference();
         this.setId(reference.push().getKey());
     }
+    public void save(){
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference()
+                .child("ad")
+                .child(FirebaseHelper.getUserId())
+                .child(this.getId());
+        reference.setValue(this);
 
+    }
     public Boolean getState() {
         return state;
     }

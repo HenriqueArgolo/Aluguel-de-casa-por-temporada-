@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.casaportemporada.Activity.MainActivity;
+import com.example.casaportemporada.Form.FormAD;
 import com.example.casaportemporada.Helper.FirebaseHelper;
 import com.example.casaportemporada.R;
 
@@ -63,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             if(!passsword.isEmpty()){
                 logar(email, passsword);
                 progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, FormAD.class));
             }else {
                 text_password.requestFocus();
                 text_password.setError("Informe sua senha");

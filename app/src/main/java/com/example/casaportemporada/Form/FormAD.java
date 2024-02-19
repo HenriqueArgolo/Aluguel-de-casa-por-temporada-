@@ -21,8 +21,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.casaportemporada.Activity.MainActivity;
+import com.example.casaportemporada.Helper.FirebaseHelper;
 import com.example.casaportemporada.Model.AdModel;
 import com.example.casaportemporada.R;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
 
@@ -44,6 +48,7 @@ public class FormAD extends AppCompatActivity {
     private ImageView img_ad;
     private String imagePath;
     private Bitmap image;
+    private AdModel ad ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,15 +94,20 @@ public class FormAD extends AppCompatActivity {
                     if (!bathroom.isEmpty()) {
                         if (!garage.isEmpty()) {
 
-                            AdModel ad = new AdModel();
+                            if(ad == null) ad = new AdModel();
                             ad.setTitle(title);
                             ad.setDescription(description);
                             ad.setRoom(room);
                             ad.setBathroom(bathroom);
                             ad.setGarage(garage);
                             ad.setState(ad_checkbox.isChecked());
-                        }
-                        {
+
+                            if (imagePath != null){
+                                saveAd();
+                            }else {
+                                Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_LONG).show();
+                            }
+                        }else {
                             ad_garage_qtd.requestFocus();
                             ad_garage_qtd.setError("informe");
                         }
@@ -119,6 +129,8 @@ public class FormAD extends AppCompatActivity {
             ad_title.setError("Dê um titul oao seu anuncio");
         }
     }
+
+
 
     public void verifyGalleryPermission(View view) {
         PermissionListener permissionListener = new PermissionListener() {
@@ -167,5 +179,22 @@ public class FormAD extends AppCompatActivity {
             img_ad.setImageBitmap(image);
         }
         }
+
+    private void saveAd(){
+        StorageReference storageReference = FirebaseHelper.getStorangeReference()
+                .child("images")
+                .child("ad")
+                .child(FirebaseHelper.getUserId())
+                .child(ad.getId() + "jpg");
+
+        UploadTask uploadTask = storageReference.putFile(Uri.parse(imagePath));
+        uploadTask.addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()).addOnCompleteListener(task -> {
+        String imageUrl = task.getResult().toString();
+        ad.setImageUrl(imageUrl);
+        ad.save();
+        //finish();
+
+        }).addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show());
+    }
 
 }
