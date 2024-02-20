@@ -34,6 +34,8 @@ public class AdModel {
                 .child(this.getId());
         reference.setValue(this);
 
+
+
     }
     public Boolean getState() {
         return state;

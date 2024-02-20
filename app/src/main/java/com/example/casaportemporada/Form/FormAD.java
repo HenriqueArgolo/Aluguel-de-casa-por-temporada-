@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.casaportemporada.Activity.MainActivity;
+import com.example.casaportemporada.Activity.MyAdActivity;
 import com.example.casaportemporada.Helper.FirebaseHelper;
 import com.example.casaportemporada.Model.AdModel;
 import com.example.casaportemporada.R;
@@ -73,7 +74,7 @@ public class FormAD extends AppCompatActivity {
 
     private void eventClick() {
         btn_back_property.setOnClickListener(view -> {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, MyAdActivity.class));
         });
         btn_save_property.setOnClickListener(view -> {
             valitadeData();
@@ -180,21 +181,25 @@ public class FormAD extends AppCompatActivity {
         }
         }
 
-    private void saveAd(){
+    private void saveAd() {
         StorageReference storageReference = FirebaseHelper.getStorangeReference()
                 .child("images")
                 .child("ad")
                 .child(FirebaseHelper.getUserId())
-                .child(ad.getId() + "jpg");
+                .child(ad.getId() + ".jpg");
 
         UploadTask uploadTask = storageReference.putFile(Uri.parse(imagePath));
-        uploadTask.addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl()).addOnCompleteListener(task -> {
-        String imageUrl = task.getResult().toString();
-        ad.setImageUrl(imageUrl);
-        ad.save();
-        //finish();
-
-        }).addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show());
+        uploadTask.addOnSuccessListener(taskSnapshot -> {
+            storageReference.getDownloadUrl().addOnSuccessListener(task -> {
+                String imageUrl = task.toString();
+                ad.setImageUrl(imageUrl);
+                ad.save();
+                finish();
+            }).addOnFailureListener(e ->{
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        }).addOnFailureListener(e ->{
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
     }
-
 }

@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.CasaPorTemporada" parent="Base.Theme.CasaPorTemporada" />
+    <style name="Theme.CasaPorTemporada.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.CasaPorTemporada.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.CasaPorTemporada.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
