@@ -90,6 +90,9 @@ class MyAdActivity : AppCompatActivity(), AdAdapter.OnClick {
     }
 
     override fun onClickListner(adModel: AdModel) {
-        Toast.makeText(this, adModel.title, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, FormAD::class.java);
+        intent.putExtra("ad", adModel);
+        startActivity(intent);
     }
 }
+

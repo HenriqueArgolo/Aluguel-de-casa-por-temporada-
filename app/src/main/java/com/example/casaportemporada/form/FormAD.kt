@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.casaportemporada.Helper.FirebaseHelper
@@ -24,8 +25,11 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.squareup.picasso.Picasso
 import java.io.IOException
+import java.io.Serializable
 
+@Suppress("DEPRECATION")
 class FormAD : AppCompatActivity() {
     private val REQUEST_GALERIA = 100
     private lateinit var ad_title: EditText
@@ -38,15 +42,25 @@ class FormAD : AppCompatActivity() {
     private lateinit var ad_checkbox: CheckBox
     private lateinit var img_ad: ImageView
     private lateinit var progressBar: ProgressBar
+    private lateinit var text_salvar: TextView
     private var imagePath: String? = null
     private var image: Bitmap? = null
-    private var ad: AdModel? = null
+    private  var ad: AdModel = AdModel()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_ad)
+
         startElements()
         eventClick()
+
+        val extras = intent.extras;
+        if (extras != null){
+           ad = extras.getSerializable("ad") as AdModel;
+            configData(ad);
+        }
+
     }
 
     private fun startElements() {
@@ -60,6 +74,19 @@ class FormAD : AppCompatActivity() {
         ad_checkbox = findViewById(R.id.ad_checkbox)
         img_ad = findViewById(R.id.img_ad)
         progressBar = findViewById(R.id.progressbar_save)
+        text_salvar = findViewById(R.id.text_salvar);
+    }
+
+    private fun configData(ad : AdModel){
+        text_salvar.setText("Editar anuncio")
+        Picasso.get().load(ad.imageUrl).into(img_ad);
+        ad_title.setText(ad.title);
+        ad_description.setText(ad.description);
+        ad_room_qtd.setText(ad.room);
+        ad_bathroom_qtd.setText(ad.bathroom);
+        ad_garage_qtd.setText(ad.garage);
+        ad_checkbox.isChecked = ad.state == ad.state;
+
     }
 
     private fun eventClick() {
@@ -84,21 +111,23 @@ class FormAD : AppCompatActivity() {
                 if (room.isNotEmpty()) {
                     if (bathroom.isNotEmpty()) {
                         if (garage.isNotEmpty()) {
-                            if (ad == null) ad = AdModel()
-                            ad?.apply {
-                                setTitle(title)
-                                setDescription(description)
-                                setRoom(room)
-                                setBathroom(bathroom)
-                                setGarage(garage)
-                                setState(ad_checkbox.isChecked)
-                            }
+
+                                ad.title = title
+                                ad.description = description
+                                ad.room = room
+                                ad.bathroom = bathroom
+                                ad.garage = garage
+                                ad.state = ad_checkbox.isChecked
 
                             if (imagePath != null) {
                                 saveAd()
                             } else {
-                                Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_LONG)
-                                    .show()
+                               if(ad.imageUrl != null){
+                                   ad.save()
+                                   finish();
+                               }else{
+                                   Toast.makeText(this, "Erro ao editar anuncio", Toast.LENGTH_LONG).show();
+                               }
                             }
                         } else {
                             ad_garage_qtd.requestFocus()
@@ -171,14 +200,14 @@ class FormAD : AppCompatActivity() {
             .child("images")
             .child("ad")
             .child(FirebaseHelper.getUserId())
-            .child(ad?.getId().toString() + ".jpg")
+            .child(ad.id.toString() + ".jpg")
 
         val uploadTask: UploadTask = storageReference.putFile(Uri.parse(imagePath))
-        uploadTask.addOnSuccessListener { taskSnapshot ->
+        uploadTask.addOnSuccessListener { _ ->
             storageReference.downloadUrl.addOnSuccessListener { task ->
-                val imageUrl: String = task.toString()
-                ad?.setImageUrl(imageUrl)
-                ad?.save()
+                val imageUrl: Uri = task
+                ad.imageUrl = imageUrl.toString()
+                ad.save()
                 finish()
             }.addOnFailureListener { e ->
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
