@@ -1,4 +1,4 @@
-package com.example.casaportemporada.Activity;
+package com.example.casaportemporada.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
-import com.example.casaportemporada.Activity.Autenticacao.LoginActivity;
 import com.example.casaportemporada.Helper.FirebaseHelper;
 import com.example.casaportemporada.R;
+import com.example.casaportemporada.activity.autenticacao.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton ib_menu;

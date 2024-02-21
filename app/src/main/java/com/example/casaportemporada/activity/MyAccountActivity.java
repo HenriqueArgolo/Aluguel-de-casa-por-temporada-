@@ -1,4 +1,4 @@
-package com.example.casaportemporada.Activity;
+package com.example.casaportemporada.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
