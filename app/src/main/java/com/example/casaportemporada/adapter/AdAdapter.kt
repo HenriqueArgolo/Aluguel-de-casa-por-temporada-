@@ -8,9 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.casaportemporada.Model.AdModel
 import com.example.casaportemporada.R
+import com.example.casaportemporada.activity.MainActivity
+import com.example.casaportemporada.activity.MyAdActivity
 import com.squareup.picasso.Picasso
 
 class AdAdapter(private val adList: List<AdModel>, private val onClick: OnClick) : RecyclerView.Adapter<AdAdapter.MyViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.ad_model, parent, false)

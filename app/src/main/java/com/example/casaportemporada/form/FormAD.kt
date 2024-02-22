@@ -111,7 +111,7 @@ class FormAD : AppCompatActivity() {
                 if (room.isNotEmpty()) {
                     if (bathroom.isNotEmpty()) {
                         if (garage.isNotEmpty()) {
-
+                                ad.userId = FirebaseHelper.getUserId()
                                 ad.title = title
                                 ad.description = description
                                 ad.room = room

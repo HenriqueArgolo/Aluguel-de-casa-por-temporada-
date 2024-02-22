@@ -47,7 +47,7 @@ class MyAdActivity : AppCompatActivity(), AdAdapter.OnClick {
     }
 
     private fun startElements() {
-        backToMain = findViewById(R.id.btn_back_main_menu)
+        backToMain = findViewById(R.id.back_to_main)
         addAd = findViewById(R.id.btn_add_ad)
         textInfo = findViewById(R.id.loading_text)
         progressBar = findViewById(R.id.loading_ad_progressbar)

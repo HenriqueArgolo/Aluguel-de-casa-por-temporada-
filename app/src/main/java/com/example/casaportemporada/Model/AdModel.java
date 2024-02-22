@@ -10,6 +10,8 @@ import java.io.Serializable;
 
 public class AdModel implements Serializable {
     private String id;
+
+    private String userId;
     private String title;
     private String description;
     private String room;
@@ -17,6 +19,8 @@ public class AdModel implements Serializable {
     private String garage;
     private Boolean state;
     private String imageUrl;
+
+
 
     public String getImageUrl() {
         return imageUrl;
@@ -36,6 +40,11 @@ public class AdModel implements Serializable {
                 .child(FirebaseHelper.getUserId())
                 .child(this.getId());
         reference.setValue(this);
+
+        DatabaseReference reference1 = FirebaseHelper.getDatabaseReference()
+                .child("public_ad")
+                .child(this.getId());
+        reference1.setValue(this);
 
     }
 
@@ -69,6 +78,14 @@ public class AdModel implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
