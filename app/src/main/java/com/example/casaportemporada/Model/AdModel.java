@@ -4,6 +4,7 @@ import com.example.casaportemporada.Helper.FirebaseHelper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.ktx.Firebase;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
 
@@ -36,8 +37,23 @@ public class AdModel implements Serializable {
                 .child(this.getId());
         reference.setValue(this);
 
+    }
 
-
+    public void delete(){
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference()
+                .child("ad")
+                .child(FirebaseHelper.getUserId())
+                .child(this.getId());
+        reference.removeValue().addOnCompleteListener(taks ->{
+            if(taks.isSuccessful()){
+                StorageReference storageReference = FirebaseHelper.getStorangeReference()
+                        .child("images")
+                        .child("ad")
+                        .child(FirebaseHelper.getUserId())
+                        .child(this.id.toString() + ".jpg");
+                storageReference.delete();
+            }
+        });
     }
     public Boolean getState() {
         return state;

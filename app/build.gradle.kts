@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.android")
+
 }
 
 android {
@@ -43,6 +44,8 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.github.tsuryo:Swipeable-RecyclerView:1.1")
+    implementation("androidx.recyclerview:recyclerview:+")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     implementation("androidx.navigation:navigation-fragment:2.6.0")
