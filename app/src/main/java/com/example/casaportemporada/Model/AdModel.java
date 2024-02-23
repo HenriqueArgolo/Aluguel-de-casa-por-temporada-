@@ -10,7 +10,6 @@ import java.io.Serializable;
 
 public class AdModel implements Serializable {
     private String id;
-
     private String userId;
     private String title;
     private String description;

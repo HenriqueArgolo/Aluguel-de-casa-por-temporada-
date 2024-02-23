@@ -139,7 +139,7 @@
                         </LinearLayout>
 
                         <android.widget.Button
-                            android:id="@+id/btn_details"
+                            android:id="@+id/btn_call"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"

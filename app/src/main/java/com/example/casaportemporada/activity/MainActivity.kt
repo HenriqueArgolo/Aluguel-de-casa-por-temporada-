@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(), AdAdapter.OnClick  {
     reference.addListenerForSingleValueEvent(object : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
             if(snapshot.exists()){
+                ad.clear()
                 for(snap in snapshot.children){
                     val newAd = snap.getValue(AdModel::class.java)
                     newAd?.let{ad.add(it)}
