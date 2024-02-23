@@ -1,6 +1,8 @@
 package com.example.casaportemporada.Model;
 
-public class FilterModel {
+import java.io.Serializable;
+
+public class FilterModel implements Serializable {
     private int roomFilter;
     private int bathroomFilter;
     private int garageFilter;

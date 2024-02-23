@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.casaportemporada.Helper.FirebaseHelper
 import com.example.casaportemporada.Model.AdModel
+import com.example.casaportemporada.Model.FilterModel
 import com.example.casaportemporada.R
 import com.example.casaportemporada.activity.autenticacao.LoginActivity
 import com.example.casaportemporada.adapter.AdAdapter
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener
 import java.util.Objects
 
 class MainActivity : AppCompatActivity(), AdAdapter.OnClick  {
+    private val REQUEST_FILTER : Int = 100
     private var ad: MutableList<AdModel> = ArrayList()
     private var ib_menu: ImageButton? = null
     private var rv_main: RecyclerView? = null
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity(), AdAdapter.OnClick  {
             popupMenu.menuInflater.inflate(R.menu.main_menu_option, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
                 if (menuItem.itemId == R.id.filter) {
+                   var intent : Intent = Intent(this@MainActivity, FilterActivity::class.java)
                     startActivity(Intent(this, FilterActivity::class.java))
                 } else if (menuItem.itemId == R.id.myAd) {
                     if (FirebaseHelper.getAutenticado()) {
@@ -97,7 +100,7 @@ class MainActivity : AppCompatActivity(), AdAdapter.OnClick  {
                     }
                 } else {
                     if (FirebaseHelper.getAutenticado()) {
-                        startActivity(Intent(this, MyAccountActivity::class.java))
+                        startActivity(Intent(this, UserEditActivity::class.java))
                     } else {
                         showDialogLogin()
                     }
