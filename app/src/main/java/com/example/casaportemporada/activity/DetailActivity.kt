@@ -22,17 +22,17 @@ import com.squareup.picasso.Picasso
 import java.io.Serializable
 
 class DetailActivity : AppCompatActivity() {
-    private lateinit var image_details : ImageView
-    private lateinit var title_detais : TextView
-    private lateinit var description_details : TextView
-    private lateinit var room_detis : TextView
-    private lateinit var bathroom_detais : TextView
-    private lateinit var garage_details : TextView
-    private lateinit var btn_back : ImageButton
-    private  lateinit var ad : AdModel
-    private  var user: User = User()
+    private lateinit var image_details: ImageView
+    private lateinit var title_detais: TextView
+    private lateinit var description_details: TextView
+    private lateinit var room_detis: TextView
+    private lateinit var bathroom_detais: TextView
+    private lateinit var garage_details: TextView
+    private lateinit var btn_back: ImageButton
+    private lateinit var ad: AdModel
+    private var user: User = User()
     private lateinit var callBtn: Button
-    private  var id : String = ""
+    private var id: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +47,7 @@ class DetailActivity : AppCompatActivity() {
         eventClick()
 
     }
+
     private fun call() {
         val phoneNumber = user.phone
         if (phoneNumber.isNotBlank()) {
@@ -58,37 +59,43 @@ class DetailActivity : AppCompatActivity() {
             Toast.makeText(this, "Número de telefone não disponível", Toast.LENGTH_SHORT).show()
         }
     }
-    private  fun eventClick(){
-        btn_back.setOnClickListener{
+
+    private fun eventClick() {
+        btn_back.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
-        callBtn.setOnClickListener{
+        callBtn.setOnClickListener {
             call()
         }
     }
 
-    private fun getUserById(userId : String){
-        val reference : DatabaseReference = FirebaseHelper.getDatabaseReference()
+    private fun getUserById(userId: String) {
+        val reference: DatabaseReference = FirebaseHelper.getDatabaseReference()
             .child("users")
             .child(userId)
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
+                if (snapshot.exists()) {
                     val userData = snapshot.getValue(User::class.java)!!
-                        if(userData !=null){
-                            user = userData
-                        }
-                }else{
-                    Toast.makeText(this@DetailActivity, "nenhum usuário presente", Toast.LENGTH_LONG).show()
+                    if (userData != null) {
+                        user = userData
+                    }
+                } else {
+                    Toast.makeText(
+                        this@DetailActivity,
+                        "nenhum usuário presente",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
             }
 
         })
     }
 
-    private fun initComponents(){
+    private fun initComponents() {
         callBtn = findViewById(R.id.btn_call)
         btn_back = findViewById(R.id.btn_back_main_menu)
         image_details = findViewById(R.id.image_details)
@@ -99,7 +106,7 @@ class DetailActivity : AppCompatActivity() {
         garage_details = findViewById(R.id.garage_deatils)
     }
 
-    private fun insertData(ad : AdModel){
+    private fun insertData(ad: AdModel) {
         Picasso.get().load(ad.imageUrl).into(image_details)
         title_detais.setText(ad.title)
         description_details.setText(ad.description)
